@@ -9,3 +9,15 @@ class AddRecipe extends RecipeEvent {
 
   AddRecipe(this.recipe);
 }
+
+class DeleteRecipe extends RecipeEvent {
+  final String id;
+
+  DeleteRecipe(this.id);
+}
+
+class UpdateRecipe extends RecipeEvent {
+  final Recipe recipe;
+
+  UpdateRecipe(this.recipe);
+}

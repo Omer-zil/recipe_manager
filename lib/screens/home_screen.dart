@@ -9,6 +9,7 @@ import '../theme/app_theme.dart';
 
 import 'recipe_detail_screen.dart';
 import 'add_recipe_screen.dart';
+import 'edit_recipe_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     children: const [
                       Text(
-                        'Welcome Back 👋',
+                        'Welcome Back',
 
                         style: TextStyle(color: Colors.white70, fontSize: 18),
                       ),
@@ -72,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const CircleAvatar(
                     radius: 26,
 
-                    backgroundImage: AssetImage('assets/images/profile.jpg'),
+                    backgroundImage: AssetImage('assets/images/profile.png'),
                   ),
                 ],
               ),
@@ -346,6 +347,58 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                             height: 1.5,
                                           ),
+                                        ),
+
+                                        const SizedBox(height: 20),
+
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        EditRecipeScreen(
+                                                          recipe: recipe,
+                                                        ),
+                                                  ),
+                                                );
+                                              },
+
+                                              icon: const Icon(
+                                                Icons.edit,
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+
+                                            IconButton(
+                                              onPressed: () {
+                                                context.read<RecipeBloc>().add(
+                                                  DeleteRecipe(recipe.id),
+                                                );
+
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                      'Recipe Deleted',
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
