@@ -21,3 +21,15 @@ class UpdateRecipe extends RecipeEvent {
 
   UpdateRecipe(this.recipe);
 }
+
+class SearchRecipe extends RecipeEvent {
+  final String query;
+
+  SearchRecipe(this.query);
+}
+
+class ToggleFavorite extends RecipeEvent {
+  final String id;
+
+  ToggleFavorite(this.id);
+}

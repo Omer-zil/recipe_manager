@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_manager/screens/main_navigation_screen.dart';
 
 import '../theme/app_theme.dart';
 import 'home_screen.dart';
+import 'main_navigation_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -137,7 +139,9 @@ class _SplashScreenState extends State<SplashScreen> {
                         Navigator.pushReplacement(
                           context,
 
-                          MaterialPageRoute(builder: (_) => const HomeScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => const MainNavigationScreen(),
+                          ),
                         );
                       },
 

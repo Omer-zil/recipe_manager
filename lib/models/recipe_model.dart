@@ -6,6 +6,8 @@ class Recipe {
   final String instructions;
   final String imageUrl;
 
+  bool isFavorite;
+
   Recipe({
     required this.id,
     required this.title,
@@ -13,6 +15,7 @@ class Recipe {
     required this.area,
     required this.instructions,
     required this.imageUrl,
+    this.isFavorite = false,
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {

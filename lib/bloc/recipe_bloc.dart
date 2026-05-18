@@ -10,6 +10,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
   final RecipeService recipeService;
 
   List<Recipe> allRecipes = [];
+  List<Recipe> filteredRecipes = [];
 
   RecipeBloc(this.recipeService) : super(RecipeInitial()) {
     on<FetchRecipes>(_fetchRecipes);
@@ -19,6 +20,10 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     on<DeleteRecipe>(_deleteRecipe);
 
     on<UpdateRecipe>(_updateRecipe);
+
+    on<ToggleFavorite>(_toggleFavorite);
+
+    on<SearchRecipe>(_searchRecipe);
   }
 
   Future<void> _fetchRecipes(
@@ -30,7 +35,9 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     try {
       allRecipes = await recipeService.fetchRecipes();
 
-      emit(RecipeLoaded(allRecipes));
+      filteredRecipes = allRecipes;
+
+      emit(RecipeLoaded(filteredRecipes));
     } catch (e) {
       emit(RecipeError('Failed to load recipes'));
     }
@@ -55,6 +62,28 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
 
     if (index != -1) {
       allRecipes[index] = event.recipe;
+
+      emit(RecipeLoaded(List.from(allRecipes)));
+    }
+  }
+
+  void _searchRecipe(SearchRecipe event, Emitter<RecipeState> emit) {
+    if (event.query.isEmpty) {
+      filteredRecipes = allRecipes;
+    } else {
+      filteredRecipes = allRecipes.where((recipe) {
+        return recipe.title.toLowerCase().contains(event.query.toLowerCase());
+      }).toList();
+    }
+
+    emit(RecipeLoaded(List.from(filteredRecipes)));
+  }
+
+  void _toggleFavorite(ToggleFavorite event, Emitter<RecipeState> emit) {
+    final index = allRecipes.indexWhere((recipe) => recipe.id == event.id);
+
+    if (index != -1) {
+      allRecipes[index].isFavorite = !allRecipes[index].isFavorite;
 
       emit(RecipeLoaded(List.from(allRecipes)));
     }
