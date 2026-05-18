@@ -34,6 +34,7 @@ This project was developed as part of a Flutter assignment focused on:
 - Loading indicators
 - Error handling
 - Responsive layout
+- Filter Based on Category
 
 ---
 
