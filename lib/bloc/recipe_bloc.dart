@@ -14,16 +14,12 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
 
   RecipeBloc(this.recipeService) : super(RecipeInitial()) {
     on<FetchRecipes>(_fetchRecipes);
-
     on<AddRecipe>(_addRecipe);
-
     on<DeleteRecipe>(_deleteRecipe);
-
     on<UpdateRecipe>(_updateRecipe);
-
     on<ToggleFavorite>(_toggleFavorite);
-
     on<SearchRecipe>(_searchRecipe);
+    on<FilterCategory>(_filterCategory); // <-- Added category filtering
   }
 
   Future<void> _fetchRecipes(
@@ -87,5 +83,22 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
 
       emit(RecipeLoaded(List.from(allRecipes)));
     }
+  }
+
+  // ========================
+  // CATEGORY FILTER
+  // ========================
+  void _filterCategory(FilterCategory event, Emitter<RecipeState> emit) {
+    if (event.category == 'All') {
+      filteredRecipes = allRecipes;
+    } else {
+      filteredRecipes = allRecipes.where((recipe) {
+        return recipe.category.toLowerCase().contains(
+          event.category.toLowerCase(),
+        );
+      }).toList();
+    }
+
+    emit(RecipeLoaded(List.from(filteredRecipes)));
   }
 }

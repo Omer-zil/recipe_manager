@@ -33,3 +33,9 @@ class ToggleFavorite extends RecipeEvent {
 
   ToggleFavorite(this.id);
 }
+
+class FilterCategory extends RecipeEvent {
+  final String category;
+
+  FilterCategory(this.category);
+}
